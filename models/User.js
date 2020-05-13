@@ -34,15 +34,16 @@ UserSchema.pre('save', function (next) {
     });
 });
 
-// UserSchema.pre('updateOne', async function (next) {
-//     if (!this._update.$set.password) return next();
-//     this._update.$set.password = await bcrypt.genSalt(10).then((salt) => {
-//         return bcrypt.hash(ref.$set.password, salt).then(hash => {
-//             return hash;
-//         })
-//     })
-//     next();
-// });
+UserSchema.pre('updateOne', async function (next) {
+    if (!this._update.$set.password) return next();
+    var pass = this._update.$set.password;
+    this._update.$set.password = await bcrypt.genSalt(10).then((salt) => {
+        return bcrypt.hash(pass, salt).then(hash => {
+            return hash;
+        }).catch(err => next(err))
+    }).catch(err => next(err))
+    next();
+});
 
 UserSchema.methods.comparePassword = function (passw, cb) {
     bcrypt.compare(passw, this.password, function (err, isMatch) {
