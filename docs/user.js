@@ -30,41 +30,21 @@ module.exports = {
                 tags: ['User API'],
                 description: 'Create User',
                 operationId: 'addUser',
-                parameters: [{
-                    name: 'name',
-                    in: 'body',
-                    schema: {
-                        type: 'string'
-                    },
-                    required: true
+                requestBody: {
+                    required: true,
+                    content: {
+                        'application/json': {
+                            schema: {
+                                example: {
+                                    "name": "Amol Saini",
+                                    "email":"amol@gmail.com",
+                                    "mobile":8126544009,
+                                    "password":"12345678"
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    name: 'email',
-                    in: 'body',
-                    schema: {
-                        type: 'string'
-                    },
-                    required: true
-                },
-                {
-                    name: 'password',
-                    in: 'body',
-                    schema: {
-                        type: 'string',
-                        minimum: 8
-                    },
-                    required: true
-                },
-                {
-                    name: 'mobile',
-                    in: 'body',
-                    schema: {
-                        type: 'number',
-                        minimum: 10
-                    },
-                    required: true
-                }
-                ],
                 responses: {
                     '200': {
                         description: 'User is created',
