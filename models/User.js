@@ -34,18 +34,15 @@ UserSchema.pre('save', function (next) {
     });
 });
 
-// UserSchema.pre('updateOne', async function (next) {
-//     var ref = this._update
-//     if (!ref.$set.password) return next();
-//     bcrypt.genSalt(10, function (err, salt) {
-//         if (err) return next(err);
-//         bcrypt.hash(ref.$set.password, salt, function (err, hash) {
-//             if (err) return next(err);
-//             ref.$set.password = hash;
-//             next();
-//         });
-//     });
-// });
+UserSchema.pre('updateOne', async function (next) {
+    if (!this._update.$set.password) return next();
+    this._update.$set.password = await bcrypt.genSalt(10).then((salt) => {
+        return bcrypt.hash(ref.$set.password, salt).then(hash => {
+            return hash;
+        })
+    })
+    next();
+});
 
 UserSchema.methods.comparePassword = function (passw, cb) {
     bcrypt.compare(passw, this.password, function (err, isMatch) {
