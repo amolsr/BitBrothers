@@ -17,7 +17,7 @@ module.exports = {
     //   description: 'Testing server'
     // },
     {
-        url: 'https://voopik-backend.herokuapp.com',
+        url: 'https://bit-brothers.herokuapp.com/',
         description: 'Production server'
     }
     ],
